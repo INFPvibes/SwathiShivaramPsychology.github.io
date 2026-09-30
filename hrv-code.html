@@ -1,0 +1,95 @@
+<h1>HRV clustering: R code</h1>
+<p>Cluster analyses with K-means:
+
+# 1. Choose HRV clustering variables:
+
+baseline SDNN, HF/LF, LF, HF
+
+hfrpbaT1
+lfbaT1
+lhratbaT1
+sdnbasT1
+
+# Create a dataset with only clustering variables:
+
+HRV_cluster_vars <- HRV_Data[, c("sdnbasT1", "hfrpbaT1", "lfbaT1", "lhratbaT1")]
+
+#remove participants with missing data
+HRV_cluster_vars <- na.omit(HRV_cluster_vars)
+
+#observe ranges
+summary(HRV_cluster_vars)
+
+#2. Standardize HRV variables
+Scaled_HRV<- scale(HRV_cluster_vars)
+
+#3. Check for skewdness
+hist(Scaled_HRV)
+
+#4. choose ideal number of cluster with the elbow method
+
+##create plot of number of clusters vs total within sum of squares
+
+set.seed(240)
+
+elbow_plot <- fviz_nbclust(
+  Scaled_HRV,
+  kmeans,
+  method = "wss",
+  nstart = 50
+)
+
+elbow_df <- data.frame(
+  k = as.integer(as.character(elbow_plot$data$clusters)),
+  WSS = elbow_plot$data$y
+)
+
+elbow_df
+
+#5. Run k-means cluster analyses
+set.seed(240)
+
+kmeans3 <- kmeans(
+  Scaled_HRV,
+  centers = 3,
+  nstart = 50
+) 
+
+set.seed(240)
+
+kmeans4 <- kmeans(
+  Scaled_HRV,
+  centers = 4,
+  nstart = 50
+) 
+
+#6.add cluster assigment to original data
+final_data <- HRV_cluster_vars
+final_data$cluster <- kmeans4$cluster
+
+final_data$cluster_1 <- as.integer(final_data$cluster == 1)
+final_data$cluster_2 <- as.integer(final_data$cluster == 2)
+final_data$cluster_3 <- as.integer(final_data$cluster == 3)
+final_data$cluster_4 <- as.integer(final_data$cluster == 4)
+
+table(final_data$cluster)
+
+head(final_data[, c(
+  "cluster", "cluster_1", "cluster_2", "cluster_3", "cluster_4"
+)])
+
+#7 visualize the clusters
+fviz_cluster(kmeans4, data = Scaled_HRV, 
+main = "K-Means Clusters")
+
+#8. export
+haven::write_sav(final_data, "final_data.sav")</p>
+
+<pre><code># Example only — replace with your actual data and variable names
+hrv_variables &lt;- data[, c("hrv_metric_1", "hrv_metric_2")]
+hrv_scaled &lt;- scale(hrv_variables)
+
+set.seed(123)
+fit &lt;- stats::kmeans(hrv_scaled, centers = 4, nstart = 25)</code></pre>
+
+<p><a href="projects.html">← Back to the HRV project</a></p>
