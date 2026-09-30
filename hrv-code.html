@@ -1,8 +1,8 @@
 <h1>HRV clustering: R code</h1>
-<p>R code for the k-means cluster analysis of baseline HRV metrics.</p>
+<p>Cluster analyses using k-means</p>
 
-<pre><code># 1. Choose HRV clustering variables:
-# Baseline SDNN, HF, LF, and HF/LF ratio
+<pre><code class="language-r"># 1. Choose HRV clustering variables
+# Baseline SDNN, HF/LF, LF, and HF
 
 HRV_cluster_vars &lt;- HRV_Data[, c(
   "sdnbasT1", "hfrpbaT1", "lfbaT1", "lhratbaT1"
@@ -20,7 +20,7 @@ Scaled_HRV &lt;- scale(HRV_cluster_vars)
 # 3. Check distributions
 hist(Scaled_HRV)
 
-# 4. Examine the number of clusters using the elbow method
+# 4. Examine the number of clusters with the elbow method
 set.seed(240)
 
 elbow_plot &lt;- factoextra::fviz_nbclust(
@@ -39,18 +39,10 @@ elbow_df
 
 # 5. Run k-means cluster analyses
 set.seed(240)
-kmeans3 &lt;- stats::kmeans(
-  Scaled_HRV,
-  centers = 3,
-  nstart = 50
-)
+kmeans3 &lt;- stats::kmeans(Scaled_HRV, centers = 3, nstart = 50)
 
 set.seed(240)
-kmeans4 &lt;- stats::kmeans(
-  Scaled_HRV,
-  centers = 4,
-  nstart = 50
-)
+kmeans4 &lt;- stats::kmeans(Scaled_HRV, centers = 4, nstart = 50)
 
 # 6. Add cluster assignments to the analysis data
 final_data &lt;- HRV_cluster_vars
