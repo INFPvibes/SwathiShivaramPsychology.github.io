@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HRV clustering | Swathi Shivaram</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    nav a { margin-right: 18px; }
+    figure { margin: 30px 0; }
+    figure img { max-width: 100%; height: auto; }
+    figcaption { color: #555; font-size: 0.9rem; }
+    pre {
+      background: #f4f4f4;
+      padding: 18px;
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+  </nav>
 
+  <main>
+    <h1>K-means clustering of baseline heart rate variability
+      in youth with IBD</h1>
+
+    <p>
+      The adaptive calibration model (ACM) describes four prototypical
+      patterns of physiological stress responsivity. How these patterns
+      might be reflected in heart rate variability (HRV) metrics in
+      pediatric samples remains an open question.
+    </p>
+
+    <p>
+      I used an exploratory four-cluster k-means analysis of baseline
+      HRV metrics in youth with inflammatory bowel disease (IBD) to
+      examine whether the resulting groupings resembled patterns
+      described by the ACM and by Hüsing et al. (2026).
+    </p>
+
+    <figure>
+      <img src="Cluster visualization.png"
+           alt="Plot of the four exploratory HRV clusters in youth with IBD">
+      <figcaption>
+        Exploratory clustering of baseline HRV metrics.
+        Add a more specific description of what the axes and colors show.
+      </figcaption>
+    </figure>
+
+    <h2>Analysis code</h2>
+    <p>Replace this illustrative snippet with the code used for your analysis:</p>
+
+    <pre><code># Example only — replace with your actual data and variable names
+hrv_variables &lt;- data[, c("hrv_metric_1", "hrv_metric_2")]
+hrv_scaled &lt;- scale(hrv_variables)
+
+set.seed(123)
+fit &lt;- stats::kmeans(hrv_scaled, centers = 4, nstart = 25)</code></pre>
+  </main>
+</body>
+</html>
